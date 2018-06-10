@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Magic Prices!</title>
+
+    <script>
+      window.$ = window.jQuery = require('./node_modules/jquery/dist/jquery.js')
+    </script>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+    <script src="crawlers/UGCCrawler.js"></script>
+    <script src="crawlers/InsideCrawler.js"></script>
+</head>
+<body>
+<nav>
+    <div class="nav-wrapper light-green darken-1">
+        <div class="brand-logo center">Deck</div>
+        <a id="add" class="btn-floating btn-large halfway-fab waves-effect waves-light teal">
+            <i class="material-icons">add</i>
+        </a>
+    </div>
+</nav>
+
+<ul></ul>
+
+<div class="container center">
+    <div class="row">
+        <div class="col s6">
+            <div class="ugc-price">
+
+            </div>
+            <div class="ugc-cards">
+
+            </div>
+        </div>
+        <div class="col s6">
+            <div class="inside-price">
+
+            </div>
+            <div class="inside-cards">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+  const electron = require('electron')
+  const {ipcRenderer} = electron
+
+  const ul = document.querySelector('ul')
+
+  let ugcPrice = []
+  let insidePrice = []
+
+  ipcRenderer.on('deck:add', function (e, items) {
+    ul.className = 'collapsible'
+    $('.collapsible').collapsible()
+    items.map(i => {
+      crawlUGC(i, ugcPrice)
+      crawlInside(i, insidePrice)
+    })
+  })
+
+  ipcRenderer.on('deck:clear', function () {
+    ul.innerHTML = ''
+    ul.className = ''
+    const price1 = document.querySelector('.ugc-price')
+    const price2 = document.querySelector('.inside-price')
+    const cards1 = document.querySelector('.ugc-cards')
+    const cards2 = document.querySelector('.inside-cards')
+
+    price1.innerHTML = ''
+    price2.innerHTML = ''
+    cards1.innerHTML = ''
+    cards2.innerHTML = ''
+    ugcPrice = []
+    insidePrice = []
+  })
+
+  // Remove item
+
+  $("#add").click(() => {
+    ipcRenderer.send('deck:addWindow')
+  })
+</script>
+</body>
+</html>
