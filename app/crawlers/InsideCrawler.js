@@ -14,9 +14,10 @@ function crawlInside(i, priceArray) {
         const $ = res.$
 
         const cardName = $('#resultado > div.features_items > div.col-md-3.col-xs-6 > div > div > div > a.tooltip-image-right > h2').text().trim()
-        const cardPrice = $('#resultado > div.features_items > div.col-md-3.col-xs-6 > div > div > div > p:nth-child(2)').text().trim().split(':')[1]
+        let cardPrice = $('#resultado > div.features_items > div.col-md-3.col-xs-6 > div > div > div > p:nth-child(2)').text().trim().split(':')
+        cardPrice = cardPrice[cardPrice.length - 1]
 
-        if (cardPrice !== undefined) {
+        if (cardPrice !== '') {
           const normalizedSelector = normalizeSelector(i.name)
 
           const matchPrice = RegExp(/\d+(,\d{1,2})?/g)

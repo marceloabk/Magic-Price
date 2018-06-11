@@ -18,9 +18,12 @@ function crawlUGC(i, priceArray) {
     const data = res.body
     const result = {name: '', price: Infinity, availability: 0}
     for (let j = 0; j < data.length; j++) {
-      if (data[j].estoque > 0 && data[j].preco < result.price) {
+      if (data[j].estoque > 0 && data[j].preco < result.price && data[j].ativo === '1') {
         result.name = data[j].nome
         result.price = Number(data[j].preco)
+        if (data[j].estoque > 20) {
+          data[j].estoque = 20
+        }
         result.availability = data[j].estoque
       }
     }
