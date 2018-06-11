@@ -5,7 +5,7 @@
     <title>Magic Prices!</title>
 
     <script>
-      window.$ = window.jQuery = require('./node_modules/jquery/dist/jquery.js')
+      window.$ = window.jQuery = require('../node_modules/jquery/dist/jquery.js')
     </script>
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -87,7 +87,7 @@
 
   // Remove item
 
-  $("#add").click(() => {
+  $('#add').click(() => {
     ipcRenderer.send('deck:addWindow')
   })
 </script>
