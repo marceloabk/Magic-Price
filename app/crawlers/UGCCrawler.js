@@ -62,37 +62,3 @@ function crawlUGC(i, priceArray) {
     }
   })
 }
-
-function createCollapsibleBody(text, name) {
-  const textNode = document.createTextNode(text)
-  const div = document.createElement('div')
-
-  div.className = `collapsible-body ${name}`
-
-  div.appendChild(textNode)
-
-  return div
-}
-
-function calculatePrice(priceArray, name, query) {
-  let sum = priceArray.reduce((a, b) => a + b, 0)
-
-  const textNode = document.createTextNode(`${name}: ${sum.toFixed(2)} R$`)
-  const priceNode = document.querySelector(`${query}`)
-  priceNode.textContent = ''
-
-  priceNode.appendChild(textNode)
-}
-
-function replaceAll(str, find, replace) {
-  return str.replace(new RegExp(find, 'g'), replace)
-}
-
-function normalizeSelector(selector) {
-  selector = replaceAll(selector, ' ', '-')
-  selector = replaceAll(selector, ',', '')
-  selector = replaceAll(selector, '\'', '')
-  selector = selector.toLowerCase()
-
-  return selector
-}
