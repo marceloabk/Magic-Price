@@ -31,3 +31,13 @@ const normalizeSelector = (selector) => {
 
   return selector
 }
+
+const createCardNotFound = (cardName, querySelector) => {
+  const itemText = document.createTextNode(cardName)
+  const div = document.createElement('div')
+  div.className = 'red-text text-lighten-1'
+
+  div.appendChild(itemText)
+  const node = document.querySelector(querySelector)
+  node.appendChild(div)
+}
