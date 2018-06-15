@@ -18,27 +18,10 @@ function crawlInside(card, priceArray) {
 
         const matchPrice = RegExp(/\d+(,\d{1,2})?/g)
         const cardOnlyPrice = cardPrice.match(matchPrice)[0].replace(',', '.')
-        const result = {name: cardName, price: Number(cardOnlyPrice)}
+        const result = {name: cardName, price: Number(cardOnlyPrice), availability: null}
 
         if (cardPrice !== '') {
-          const normalizedSelector = normalizeSelector(card.name)
-          const searchName = document.querySelector(`.${normalizedSelector}`)
-
-          if (searchName === null) {
-            const li = document.createElement('li')
-            const div = document.createElement('div')
-            div.className = `collapsible-header`
-
-            const itemText = document.createTextNode(result.name)
-
-            div.appendChild(itemText)
-            li.appendChild(div)
-            const body = createCollapsibleBody(`Inside: ${result.name}: ${result.price.toFixed(2)}`, normalizedSelector)
-            li.appendChild(body)
-            ul.appendChild(li)
-          } else {
-            searchName.innerHTML += `<br />Inside: ${result.name}: ${result.price.toFixed(2)}`
-          }
+          createCardElement(card.name, 'Inside', result)
 
           priceArray.push(result.price * card.quantity)
           calculatePrice(priceArray, 'Inside', '.inside-price')

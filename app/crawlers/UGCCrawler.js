@@ -31,24 +31,7 @@ function crawlUGC(card, priceArray) {
     }
 
     if (result.price !== Infinity) {
-      const normalizedSelector = normalizeSelector(card.name)
-      const searchName = document.querySelector(`.${normalizedSelector}`)
-
-      if (searchName === null) {
-        const li = document.createElement('li')
-        const div = document.createElement('div')
-        div.className = `collapsible-header`
-
-        const itemText = document.createTextNode(result.name)
-
-        div.appendChild(itemText)
-        li.appendChild(div)
-        const body = createCollapsibleBody(`UGC: ${result.name}: ${result.price.toFixed(2)} | Quantidade: ${result.availability}`, normalizedSelector)
-        li.appendChild(body)
-        ul.appendChild(li)
-      } else {
-        searchName.innerHTML += `<br />UGC: ${result.name}: ${result.price.toFixed(2)} | Quantidade: ${result.availability}`
-      }
+      createCardElement(card.name, 'UGC', result)
 
       priceArray.push(result.price * card.quantity)
       calculatePrice(priceArray, 'UGC', '.ugc-price')
