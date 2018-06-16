@@ -12,7 +12,7 @@ const createCollapsibleBody = (text, name) => {
 const calculatePrice = (priceArray, name, querySelector) => {
   let sum = priceArray.reduce((a, b) => a + b, 0)
 
-  const textNode = document.createTextNode(`${name}: ${sum.toFixed(2)} R$`)
+  const textNode = document.createTextNode(`${sum.toFixed(2)} R$`)
   const priceNode = document.querySelector(`${querySelector}`)
   priceNode.textContent = ''
 
