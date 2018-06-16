@@ -19,6 +19,7 @@
     <script src="crawlers/crawlerMethods.js"></script>
     <script src="crawlers/UGCCrawler.js"></script>
     <script src="crawlers/InsideCrawler.js"></script>
+    <script src="crawlers/ligaMagicLike.js"></script>
 </head>
 <body>
 <nav>
@@ -34,7 +35,36 @@
 
 <div class="container center">
     <div class="row">
-        <div class="col s6">
+        <div class="col s1"></div>
+        <div class="col s2">
+            <p>Bazar de Bagda:</p>
+            <div class="BazardeBagda-price">
+
+            </div>
+            <div class="BazardeBagda-cards">
+
+            </div>
+        </div>
+        <div class="col s2">
+            <p>Chuck TCG:</p>
+            <div class="ChuckTCG-price">
+
+            </div>
+            <div class="ChuckTCG-cards">
+
+            </div>
+        </div>
+        <div class="col s2">
+            <p>Asgard Store:</p>
+            <div class="Asgard-price">
+
+            </div>
+            <div class="Asgard-cards">
+
+            </div>
+        </div>
+        <div class="col s2">
+            <p>UGCardshop:</p>
             <div class="ugc-price">
 
             </div>
@@ -42,7 +72,8 @@
 
             </div>
         </div>
-        <div class="col s6">
+        <div class="col s2">
+            <p>Inside Games:</p>
             <div class="inside-price">
 
             </div>
@@ -61,6 +92,9 @@
 
   let ugcPrice = []
   let insidePrice = []
+  let bazarPrice = []
+  let chuckPrice = []
+  let asgardPrice = []
 
   ipcRenderer.on('deck:add', function (e, items) {
     ul.className = 'collapsible'
@@ -68,6 +102,9 @@
     items.map(i => {
       crawlUGC(i, ugcPrice)
       crawlInside(i, insidePrice)
+      crawlLigaLike(i, bazarPrice, 'https://www.bazardebagda.com.br/', 'Bazar de Bagda')
+      crawlLigaLike(i, chuckPrice, 'https://www.chucktcg.com.br/', 'Chuck TCG')
+      crawlLigaLike(i, asgardPrice, 'https://www.asgardstore.com.br/', 'Asgard', true)
     })
   })
 
@@ -85,6 +122,9 @@
     cards2.innerHTML = ''
     ugcPrice = []
     insidePrice = []
+    bazarPrice = []
+    chuckPrice = []
+    asgardPrice = []
   })
 
   // Remove item
