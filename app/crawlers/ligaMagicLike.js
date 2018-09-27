@@ -52,7 +52,15 @@ function crawlLigaLike(card, priceArray, siteURL, storeName, ignoreQuality = fal
             }
 
             if (quality === 'NM' || quality === 'M' || quality === 'Near Mint (NM)' || quality === 'Mint (M)') {
-              let price = cardPrice[i].children[0].data.trim().split(' ')[1]
+              let price
+
+              if (cardPrice[i].attribs.title) {
+                // item com desconto
+                price = cardPrice[i].children[5].children[0].data.trim().split(' ')[1]
+              } else {
+                price = cardPrice[i].children[0].data.trim().split(' ')[1]
+              }
+
               price = Number(price.replace(',', '.'))
               if (price < result.price) {
                 result.name = card.name
