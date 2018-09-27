@@ -9,7 +9,7 @@ let throttle = new Throttle({
 })
 
 function crawlUGC(card, priceArray) {
-  const url = `https://www.ugcardshop.com.br/api/products/mtg-versions?name=${card.name}`
+  const url = `https://www.ugcardshop.com.br/api/products/versions?name=${card.name}&type=M`
 
   request
   .get(url)

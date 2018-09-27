@@ -47,6 +47,8 @@
       j--
       let cardData = {}
       cardData.quantity = items[i].substring(0, j)
+      if (!cardData.quantity)
+        cardData.quantity = 1
       cardData.name = items[i].substring(j + 1, items[i].length - j + 1)
       deckData.push(cardData)
     }

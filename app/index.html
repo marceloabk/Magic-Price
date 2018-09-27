@@ -35,7 +35,15 @@
 
 <div class="container center">
     <div class="row">
-        <div class="col s1"></div>
+        <div class="col s2">
+            <p>Draw Go:</p>
+            <div class="DrawGo-price">
+
+            </div>
+            <div class="DrawGo-cards">
+
+            </div>
+        </div>
         <div class="col s2">
             <p>Bazar de Bagda:</p>
             <div class="BazardeBagda-price">
@@ -95,6 +103,7 @@
   let bazarPrice = []
   let chuckPrice = []
   let asgardPrice = []
+  let drawGoPrice = []
 
   ipcRenderer.on('deck:add', function (e, items) {
     ul.className = 'collapsible'
@@ -104,6 +113,7 @@
       crawlInside(i, insidePrice)
       crawlLigaLike(i, bazarPrice, 'https://www.bazardebagda.com.br/', 'Bazar de Bagda')
       crawlLigaLike(i, chuckPrice, 'https://www.chucktcg.com.br/', 'Chuck TCG')
+      crawlLigaLike(i, drawGoPrice, 'https://www.drawgogames.com.br/', 'Draw Go')
       crawlLigaLike(i, asgardPrice, 'https://www.asgardstore.com.br/', 'Asgard', true)
     })
   })
@@ -125,6 +135,7 @@
     bazarPrice = []
     chuckPrice = []
     asgardPrice = []
+    drawGoPrice = []
   })
 
   // Remove item
