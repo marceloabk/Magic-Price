@@ -34,7 +34,7 @@
 <ul></ul>
 
 <div class="container center">
-    <div class="row">
+    <div class="row cards-list">
         <div class="col s2">
             <p>Draw Go:</p>
             <div class="DrawGo-price">
@@ -121,15 +121,12 @@
   ipcRenderer.on('deck:clear', function () {
     ul.innerHTML = ''
     ul.className = ''
-    const price1 = document.querySelector('.ugc-price')
-    const price2 = document.querySelector('.inside-price')
-    const cards1 = document.querySelector('.ugc-cards')
-    const cards2 = document.querySelector('.inside-cards')
+    const price = document.querySelectorAll('.cards-list > div > div')
 
-    price1.innerHTML = ''
-    price2.innerHTML = ''
-    cards1.innerHTML = ''
-    cards2.innerHTML = ''
+    for (let i = 0; i < price.length; i++) {
+      price[i].innerHTML = ''
+    }
+
     ugcPrice = []
     insidePrice = []
     bazarPrice = []

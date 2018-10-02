@@ -1,6 +1,6 @@
 {
   "name": "magic-prices",
-  "version": "0.1.1",
+  "version": "0.2.3",
   "description": "Magic app to get brazilian prices of a deck",
   "main": "./app/main.js",
   "scripts": {

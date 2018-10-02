@@ -4,7 +4,7 @@ const url = require('url')
 
 // SET ENV
 
-process.env.NODE_ENV = 'production'
+process.env.NODE_ENV = 'development'
 
 // Mantenha uma referencia global do objeto da janela, se você não fizer isso, a janela será
 // fechada automaticamente quando o objeto JavaScript for coletado.
