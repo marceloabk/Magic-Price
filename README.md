@@ -2,6 +2,8 @@
 
 Faça a pesquisa do preço do seu deck de Magic: The Gathering em algumas lojas brasileiras.
 
+Eng: Search for the price of your Magic: The Gathering deck in some Brazilian stores.
+
 Software desenvolvido em [Electron](https://electron.atom.io/).
 
 ### Lojas atualmente contempladas
@@ -11,3 +13,4 @@ Software desenvolvido em [Electron](https://electron.atom.io/).
 - [Chuck TCG](https://www.chucktcg.com.br/)
 - [Asgard Store](https://www.asgardstore.com.br/)
 - [Bazar de Bagda](https://www.bazardebagda.com.br/)
+
