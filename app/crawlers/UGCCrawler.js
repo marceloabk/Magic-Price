@@ -8,6 +8,7 @@ let throttle = new Throttle({
   concurrent: 2     // how many requests can be sent concurrently
 })
 
+
 function crawlUGC(card, priceArray) {
   const url = `https://www.ugcardshop.com.br/api/products/versions?name=${card.name}&type=M`
 

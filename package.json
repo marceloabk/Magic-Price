@@ -29,8 +29,8 @@
   "dependencies": {
     "crawler": "^1.1.4",
     "jquery": "^3.3.1",
-    "superagent": "^3.8.3",
-    "superagent-throttle": "^0.2.5"
+    "superagent": "^6.1.0",
+    "superagent-throttle": "^1.0.1"
   },
   "devDependencies": {
     "electron": "^2.0.1",
