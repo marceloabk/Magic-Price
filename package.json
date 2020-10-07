@@ -34,7 +34,7 @@
     "superagent-throttle": "^1.0.1"
   },
   "devDependencies": {
-    "electron": "^2.0.1",
+    "electron": "^7.2.4",
     "electron-builder": "^20.15.1"
   }
 }
