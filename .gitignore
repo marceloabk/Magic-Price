@@ -190,3 +190,6 @@ fabric.properties
 # Electron
 release-builds/
 dist/
+
+# vscode
+.vscode

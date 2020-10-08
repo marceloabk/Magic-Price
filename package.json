@@ -9,7 +9,8 @@
     "start": "electron .",
     "pack": "electron-builder --dir",
     "dist": "electron-builder -wlm",
-    "postinstall": "electron-builder install-app-deps"
+    "postinstall": "electron-builder install-app-deps",
+    "prettier": "npx prettier --write ."
   },
   "build": {
     "appId": "com.electron.magicprices",
@@ -28,13 +29,14 @@
   "author": "Marcelo Cristiano",
   "license": "MIT",
   "dependencies": {
-    "crawler": "^1.1.4",
-    "jquery": "^3.3.1",
+    "crawler": "^1.2.2",
+    "jquery": "^3.5.1",
     "superagent": "^6.1.0",
     "superagent-throttle": "^1.0.1"
   },
   "devDependencies": {
-    "electron": "^2.0.1",
-    "electron-builder": "^20.15.1"
+    "electron": "^10.1.3",
+    "electron-builder": "^22.8.1",
+    "prettier": "2.1.2"
   }
 }

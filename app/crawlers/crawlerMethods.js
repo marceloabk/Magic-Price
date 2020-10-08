@@ -1,75 +1,75 @@
 const createCollapsibleBody = (text, name) => {
-  const textNode = document.createTextNode(text)
-  const div = document.createElement('div')
+  const textNode = document.createTextNode(text);
+  const div = document.createElement("div");
 
-  div.className = `collapsible-body ${name}`
+  div.className = `collapsible-body ${name}`;
 
-  div.appendChild(textNode)
+  div.appendChild(textNode);
 
-  return div
-}
+  return div;
+};
 
 const calculatePrice = (priceArray, name, querySelector) => {
-  let sum = priceArray.reduce((a, b) => a + b, 0)
+  let sum = priceArray.reduce((a, b) => a + b, 0);
 
-  const textNode = document.createTextNode(`${sum.toFixed(2)} R$`)
-  const priceNode = document.querySelector(`${querySelector}`)
-  priceNode.textContent = ''
+  const textNode = document.createTextNode(`${sum.toFixed(2)} R$`);
+  const priceNode = document.querySelector(`${querySelector}`);
+  priceNode.textContent = "";
 
-  priceNode.appendChild(textNode)
-}
+  priceNode.appendChild(textNode);
+};
 
 const replaceAll = (str, find, replace) => {
-  return str.replace(new RegExp(find, 'g'), replace)
-}
+  return str.replace(new RegExp(find, "g"), replace);
+};
 
 const normalizeSelector = (selector) => {
-  selector = replaceAll(selector, ' ', '-')
-  selector = replaceAll(selector, ',', '')
-  selector = replaceAll(selector, '\'', '')
-  selector = selector.toLowerCase()
+  selector = replaceAll(selector, " ", "-");
+  selector = replaceAll(selector, ",", "");
+  selector = replaceAll(selector, "'", "");
+  selector = selector.toLowerCase();
 
-  return selector
-}
+  return selector;
+};
 
 const createCardNotFound = (cardName, querySelector) => {
-  const itemText = document.createTextNode(cardName)
-  const div = document.createElement('div')
-  div.className = 'red-text text-lighten-1'
+  const itemText = document.createTextNode(cardName);
+  const div = document.createElement("div");
+  div.className = "red-text text-lighten-1";
 
-  div.appendChild(itemText)
-  const node = document.querySelector(querySelector)
-  node.appendChild(div)
-}
+  div.appendChild(itemText);
+  const node = document.querySelector(querySelector);
+  node.appendChild(div);
+};
 
 const createCardElement = (typedName, storeName, result) => {
-  const normalizedSelector = normalizeSelector(typedName)
-  const card = document.querySelector(`.${normalizedSelector}`)
-  const cardInfo = cardString(storeName, result)
+  const normalizedSelector = normalizeSelector(typedName);
+  const card = document.querySelector(`.${normalizedSelector}`);
+  const cardInfo = cardString(storeName, result);
 
   if (!card) {
-    const li = document.createElement('li')
-    const div = document.createElement('div')
-    div.className = `collapsible-header`
+    const li = document.createElement("li");
+    const div = document.createElement("div");
+    div.className = `collapsible-header`;
 
-    const itemText = document.createTextNode(result.name)
+    const itemText = document.createTextNode(result.name);
 
-    div.appendChild(itemText)
-    li.appendChild(div)
+    div.appendChild(itemText);
+    li.appendChild(div);
 
-    const body = createCollapsibleBody(cardInfo, normalizedSelector)
-    li.appendChild(body)
-    ul.appendChild(li)
+    const body = createCollapsibleBody(cardInfo, normalizedSelector);
+    li.appendChild(body);
+    ul.appendChild(li);
   } else {
-    card.innerHTML += `<br />${cardInfo}`
+    card.innerHTML += `<br />${cardInfo}`;
   }
-}
+};
 
 const cardString = (storeName, result) => {
-  let cardInfo = `${storeName} -> ${result.name}: ${result.price.toFixed(2)}`
+  let cardInfo = `${storeName} -> ${result.name}: ${result.price.toFixed(2)}`;
   if (result.availability) {
-    cardInfo += ` | Quantidade: ${result.availability}`
+    cardInfo += ` | Quantidade: ${result.availability}`;
   }
 
-  return cardInfo
-}
+  return cardInfo;
+};
