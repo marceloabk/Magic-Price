@@ -1,137 +1,144 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Magic Prices!</title>
 
-<head>
-  <meta charset="UTF-8">
-  <title>Magic Prices!</title>
+    <script>
+      window.$ = window.jQuery = require("../node_modules/jquery/dist/jquery.js");
+    </script>
 
-  <script>
-    window.$ = window.jQuery = require('../node_modules/jquery/dist/jquery.js')
-  </script>
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
 
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css"
+    />
 
-  <!-- Compiled and minified CSS -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
 
-  <!-- Compiled and minified JavaScript -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+    <script src="crawlers/crawlerMethods.js"></script>
+    <script src="crawlers/UGCCrawler.js"></script>
+    <script src="crawlers/ligaMagicLike.js"></script>
+  </head>
 
-  <script src="crawlers/crawlerMethods.js"></script>
-  <script src="crawlers/UGCCrawler.js"></script>
-  <script src="crawlers/InsideCrawler.js"></script>
-  <script src="crawlers/ligaMagicLike.js"></script>
-</head>
-
-<body>
-  <nav>
-    <div class="nav-wrapper light-green darken-1">
-      <div class="brand-logo center">Deck</div>
-      <a id="add" class="btn-floating btn-large halfway-fab waves-effect waves-light teal">
-        <i class="material-icons">add</i>
-      </a>
-    </div>
-  </nav>
-
-  <ul></ul>
-
-  <div class="container center">
-    <div class="row cards-list">
-      <div class="col s2">
-        <p>Bazar de Bagda:</p>
-        <div class="BazardeBagda-price">
-
-        </div>
-        <div class="BazardeBagda-cards">
-
-        </div>
+  <body>
+    <nav>
+      <div class="nav-wrapper light-green darken-1">
+        <div class="brand-logo center">Deck</div>
+        <a
+          id="add"
+          class="btn-floating btn-large halfway-fab waves-effect waves-light teal"
+        >
+          <i class="material-icons">add</i>
+        </a>
       </div>
-      <div class="col s2">
-        <p>Chuck TCG:</p>
-        <div class="ChuckTCG-price">
+    </nav>
 
+    <ul></ul>
+
+    <div class="container center">
+      <div class="row cards-list">
+        <div class="col s2">
+          <p>Bazar de Bagda:</p>
+          <div class="BazardeBagda-price"></div>
+          <div class="BazardeBagda-cards"></div>
         </div>
-        <div class="ChuckTCG-cards">
-
+        <div class="col s2">
+          <p>Chuck TCG:</p>
+          <div class="ChuckTCG-price"></div>
+          <div class="ChuckTCG-cards"></div>
         </div>
-      </div>
-      <div class="col s2">
-        <p>Asgard Store:</p>
-        <div class="Asgard-price">
-
+        <div class="col s2">
+          <p>Asgard Store:</p>
+          <div class="Asgard-price"></div>
+          <div class="Asgard-cards"></div>
         </div>
-        <div class="Asgard-cards">
-
+        <div class="col s2">
+          <p>UGCardshop:</p>
+          <div class="ugc-price"></div>
+          <div class="ugc-cards"></div>
         </div>
-      </div>
-      <div class="col s2">
-        <p>UGCardshop:</p>
-        <div class="ugc-price">
-
-        </div>
-        <div class="ugc-cards">
-
-        </div>
-      </div>
-      <div class="col s2">
-        <p>Inside Games:</p>
-        <div class="InsideGames-price">
-
-        </div>
-        <div class="InsideGames-cards">
-
+        <div class="col s2">
+          <p>Inside Games:</p>
+          <div class="InsideGames-price"></div>
+          <div class="InsideGames-cards"></div>
         </div>
       </div>
     </div>
-  </div>
 
-  <script>
-    const electron = require('electron')
-    const { ipcRenderer } = electron
+    <script>
+      const electron = require("electron");
+      const { ipcRenderer } = electron;
 
-    const ul = document.querySelector('ul')
+      const ul = document.querySelector("ul");
 
-    let ugcPrice = []
-    let insidePrice = []
-    let bazarPrice = []
-    let chuckPrice = []
-    let asgardPrice = []
+      let ugcPrice = [];
+      let insidePrice = [];
+      let bazarPrice = [];
+      let chuckPrice = [];
+      let asgardPrice = [];
 
-    ipcRenderer.on('deck:add', function (e, items) {
-      ul.className = 'collapsible'
-      $('.collapsible').collapsible()
-      items.map(i => {
-        crawlUGC(i, ugcPrice)
-        // crawlInside(i, insidePrice)
-        crawlLigaLike(i, insidePrice, 'https://www.insidegamestore.com.br/', 'Inside Games')
-        crawlLigaLike(i, bazarPrice, 'https://www.bazardebagda.com.br/', 'Bazar de Bagda')
-        crawlLigaLike(i, chuckPrice, 'https://www.chucktcg.com.br/', 'Chuck TCG')
-        crawlLigaLike(i, asgardPrice, 'https://www.asgardstore.com.br/', 'Asgard', true)
-      })
-    })
+      ipcRenderer.on("deck:add", function (e, items) {
+        ul.className = "collapsible";
+        $(".collapsible").collapsible();
+        items.map((i) => {
+          crawlUGC(i, ugcPrice);
+          // crawlInside(i, insidePrice)
+          crawlLigaLike(
+            i,
+            insidePrice,
+            "https://www.insidegamestore.com.br/",
+            "Inside Games"
+          );
+          crawlLigaLike(
+            i,
+            bazarPrice,
+            "https://www.bazardebagda.com.br/",
+            "Bazar de Bagda"
+          );
+          crawlLigaLike(
+            i,
+            chuckPrice,
+            "https://www.chucktcg.com.br/",
+            "Chuck TCG"
+          );
+          crawlLigaLike(
+            i,
+            asgardPrice,
+            "https://www.asgardstore.com.br/",
+            "Asgard",
+            true
+          );
+        });
+      });
 
-    ipcRenderer.on('deck:clear', function () {
-      ul.innerHTML = ''
-      ul.className = ''
-      const price = document.querySelectorAll('.cards-list > div > div')
+      ipcRenderer.on("deck:clear", function () {
+        ul.innerHTML = "";
+        ul.className = "";
+        const price = document.querySelectorAll(".cards-list > div > div");
 
-      for (let i = 0; i < price.length; i++) {
-        price[i].innerHTML = ''
-      }
+        for (let i = 0; i < price.length; i++) {
+          price[i].innerHTML = "";
+        }
 
-      ugcPrice = []
-      insidePrice = []
-      bazarPrice = []
-      chuckPrice = []
-      asgardPrice = []
-    })
+        ugcPrice = [];
+        insidePrice = [];
+        bazarPrice = [];
+        chuckPrice = [];
+        asgardPrice = [];
+      });
 
-    // Remove item
+      // Remove item
 
-    $('#add').click(() => {
-      ipcRenderer.send('deck:addWindow')
-    })
-  </script>
-</body>
-
+      $("#add").click(() => {
+        ipcRenderer.send("deck:addWindow");
+      });
+    </script>
+  </body>
 </html>

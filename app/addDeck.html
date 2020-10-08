@@ -1,60 +1,67 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
     <title>Add Deck</title>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css"
+    />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
-</head>
-<body>
-<form>
-    <div class="container">
+  </head>
+
+  <body>
+    <form>
+      <div class="container">
         <div class="input-field">
-            <label for="deck">Enter Deck</label>
-            <textarea class="materialize-textarea" id="deck" autofocus></textarea>
+          <label for="deck">Enter Deck</label>
+          <textarea class="materialize-textarea" id="deck" autofocus></textarea>
         </div>
-        <button class="btn waves-effect waves-light" type="submit">Add Deck</button>
-    </div>
-</form>
+        <button id="ola" class="btn waves-effect waves-light" type="submit">
+          Add Deck
+        </button>
+      </div>
+    </form>
 
-<script>
-  const electron = require('electron')
-  const {ipcRenderer} = electron
+    <script>
+      const electron = require("electron");
+      const { ipcRenderer } = electron;
 
+      const form = document.querySelector("form");
 
-  const form = document.querySelector('form')
+      form.addEventListener("submit", submitForm);
 
-  form.addEventListener('submit', submitForm)
+      function submitForm(e) {
+        e.preventDefault();
+        const item = document.querySelector("#deck").value;
+        let items = item.split("\n");
 
-  function submitForm(e) {
-    e.preventDefault()
-    const item = document.querySelector('#deck').value
-    let items = item.split('\n')
+        items = items.filter((n) => {
+          return n && n[0] !== n[1] && n[0] !== "/";
+        });
 
-    items = items.filter(n => {
-      return n && (n[0] !== n[1] && n[0] !== '/')
-    })
-
-    let deckData = []
-    for (let i = 0; i < items.length; i++) {
-      let j = 0
-      for (j = 0; j < items[i].length; j++) {
-        if (isNaN(items[i][j])) {
-          break
+        let deckData = [];
+        for (let i = 0; i < items.length; i++) {
+          let j = 0;
+          for (j = 0; j < items[i].length; j++) {
+            if (isNaN(items[i][j])) {
+              break;
+            }
+          }
+          j--;
+          let cardData = {};
+          cardData.quantity = items[i].substring(0, j);
+          if (!cardData.quantity) cardData.quantity = 1;
+          cardData.name = items[i].substring(j + 1, items[i].length - j + 1);
+          deckData.push(cardData);
         }
+        console.log({ deckData });
+        ipcRenderer.send("deck:add", deckData);
       }
-      j--
-      let cardData = {}
-      cardData.quantity = items[i].substring(0, j)
-      if (!cardData.quantity)
-        cardData.quantity = 1
-      cardData.name = items[i].substring(j + 1, items[i].length - j + 1)
-      deckData.push(cardData)
-    }
-
-    ipcRenderer.send('deck:add', deckData)
-  }
-</script>
-</body>
+    </script>
+  </body>
 </html>
