@@ -21,7 +21,7 @@
           <label for="deck">Enter Deck</label>
           <textarea class="materialize-textarea" id="deck" autofocus></textarea>
         </div>
-        <button id="ola" class="btn waves-effect waves-light" type="submit">
+        <button class="btn waves-effect waves-light" type="submit">
           Add Deck
         </button>
       </div>
@@ -59,7 +59,6 @@
           cardData.name = items[i].substring(j + 1, items[i].length - j + 1);
           deckData.push(cardData);
         }
-        console.log({ deckData });
         ipcRenderer.send("deck:add", deckData);
       }
     </script>

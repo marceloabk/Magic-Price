@@ -44,6 +44,7 @@
 
     <div class="container center">
       <div class="row cards-list">
+        <div class="col s1"></div>
         <div class="col s2">
           <p>Bazar de Bagda:</p>
           <div class="BazardeBagda-price"></div>
@@ -70,10 +71,19 @@
           <div class="InsideGames-cards"></div>
         </div>
       </div>
+
+      <button id="bestResult" class="waves-effect waves-light btn">
+        Melhor resultado
+      </button>
+      <div class="col s2">
+        <div class="bestResult-price"></div>
+        <div class="bestResult-cards"></div>
+      </div>
     </div>
 
     <script>
       const electron = require("electron");
+      const product = require("cartesian-product");
       const { ipcRenderer } = electron;
 
       const ul = document.querySelector("ul");
@@ -84,35 +94,42 @@
       let chuckPrice = [];
       let asgardPrice = [];
 
+      let allPrices = {};
+      let allCards;
+
       ipcRenderer.on("deck:add", function (e, items) {
         ul.className = "collapsible";
         $(".collapsible").collapsible();
+        allCards = items;
         items.map((i) => {
-          crawlUGC(i, ugcPrice);
-          // crawlInside(i, insidePrice)
+          crawlUGC(i, ugcPrice, allPrices);
           crawlLigaLike(
             i,
             insidePrice,
             "https://www.insidegamestore.com.br/",
-            "Inside Games"
+            "Inside Games",
+            allPrices
           );
           crawlLigaLike(
             i,
             bazarPrice,
             "https://www.bazardebagda.com.br/",
-            "Bazar de Bagda"
+            "Bazar de Bagda",
+            allPrices
           );
           crawlLigaLike(
             i,
             chuckPrice,
             "https://www.chucktcg.com.br/",
-            "Chuck TCG"
+            "Chuck TCG",
+            allPrices
           );
           crawlLigaLike(
             i,
             asgardPrice,
             "https://www.asgardstore.com.br/",
             "Asgard",
+            allPrices,
             true
           );
         });
@@ -135,6 +152,62 @@
       });
 
       // Remove item
+
+      $("#bestResult").click(() => {
+        const cardNames = allCards.map(({ name }) => name);
+        const storeNames = Object.keys(allPrices);
+        const arrayToBeMultiplied = cardNames.map(() => storeNames);
+
+        let resultMatrix = product(arrayToBeMultiplied);
+        resultMatrix.forEach((line, i) => {
+          line.forEach((element, j) => {
+            resultMatrix[i][j] += `|${cardNames[j]}`;
+          });
+        });
+
+        let priceMatrix = JSON.parse(JSON.stringify(resultMatrix));
+        resultMatrix.forEach((line, i) => {
+          line.forEach((element, j) => {
+            const [storeName, cardName] = resultMatrix[i][j].split("|");
+            console.log({ storeName, cardName });
+            priceMatrix[i][j] = allPrices[storeName][cardName];
+          });
+        });
+
+        let bestIndex,
+          total = Infinity;
+        priceMatrix.forEach((priceArray, index) => {
+          const newTotal = priceArray.reduce((a, b) => a + b, 0);
+          if (!isNaN(newTotal) && newTotal < total) {
+            total = newTotal;
+            bestIndex = index;
+          }
+        });
+
+        // console.log({ priceMatrix });
+        // console.log({ resultMatrix });
+        // console.log({ total });
+        // console.log({ bestIndex });
+        console.log({
+          result: resultMatrix[bestIndex],
+          total: priceMatrix[bestIndex].reduce((a, b) => a + b, 0),
+        });
+
+        const bestPriceTextNode = document.createTextNode(
+          priceMatrix[bestIndex].reduce((a, b) => a + b, 0)
+        );
+        const bestPriceNode = document.querySelector(".bestResult-price");
+        bestPriceNode.appendChild(bestPriceTextNode);
+
+        resultMatrix[bestIndex].forEach((card) => {
+          const itemText = document.createTextNode(card);
+          const div = document.createElement("div");
+          div.appendChild(itemText);
+
+          const node = document.querySelector(".bestResult-cards");
+          node.appendChild(div);
+        });
+      });
 
       $("#add").click(() => {
         ipcRenderer.send("deck:addWindow");

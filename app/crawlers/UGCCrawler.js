@@ -8,7 +8,7 @@ let throttle = new Throttle({
   concurrent: 2, // how many requests can be sent concurrently
 });
 
-function crawlUGC(card, priceArray) {
+function crawlUGC(card, priceArray, allPrices) {
   const url = `https://www.ugcardshop.com.br/api/products/search/${card.name}`;
 
   request
@@ -35,7 +35,7 @@ function crawlUGC(card, priceArray) {
       }
 
       if (result.price !== Infinity) {
-        createCardElement(card.name, "UGC", result);
+        createCardElement(card.name, "UGC", result, allPrices);
 
         priceArray.push(result.price * card.quantity);
         calculatePrice(priceArray, "UGC", ".ugc-price");

@@ -42,10 +42,16 @@ const createCardNotFound = (cardName, querySelector) => {
   node.appendChild(div);
 };
 
-const createCardElement = (typedName, storeName, result) => {
+const createCardElement = (typedName, storeName, result, allPrices) => {
   const normalizedSelector = normalizeSelector(typedName);
   const card = document.querySelector(`.${normalizedSelector}`);
   const cardInfo = cardString(storeName, result);
+
+  if (allPrices[storeName]) {
+    allPrices[storeName][result.name] = result.price;
+  } else {
+    allPrices[storeName] = { [result.name]: result.price };
+  }
 
   if (!card) {
     const li = document.createElement("li");
