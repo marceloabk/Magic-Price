@@ -29,6 +29,7 @@
   "author": "Marcelo Cristiano",
   "license": "MIT",
   "dependencies": {
+    "cartesian-product": "^2.1.2",
     "crawler": "^1.2.2",
     "jquery": "^3.5.1",
     "superagent": "^6.1.0",

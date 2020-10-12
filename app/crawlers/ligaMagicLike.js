@@ -7,6 +7,7 @@ function crawlLigaLike(
   priceArray,
   siteURL,
   storeName,
+  allPrices,
   ignoreQuality = false
 ) {
   let crawler = crawlerInstances[storeName];
@@ -103,7 +104,7 @@ function crawlLigaLike(
           }
 
           if (result.price !== Infinity) {
-            createCardElement(card.name, storeName, result);
+            createCardElement(card.name, storeName, result, allPrices);
 
             priceArray.push(result.price * card.quantity);
             calculatePrice(
