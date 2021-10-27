@@ -9,12 +9,16 @@ let throttle = new Throttle({
 });
 
 function crawlUGC(card, priceArray, allPrices) {
-  const url = `https://www.ugcardshop.com.br/api/products/search/${card.name}`;
-
+  const url = `http://www.ugcardshop.com.br/api/products/search/${card.name}`;
+  console.log(url);
   request
     .get(url)
     .use(throttle.plugin())
     .end((err, res) => {
+      if (err) {
+        console.log(err);
+      }
+      console.log(res);
       const data = res.body;
       const result = { name: "", price: Infinity, availability: 0 };
       for (let i = 0; i < data.length; i++) {
