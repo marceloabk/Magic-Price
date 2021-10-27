@@ -1,5 +1,6 @@
 const request = require("superagent");
 const Throttle = require("superagent-throttle");
+const {createCardElement, calculatePrice, createCardNotFound} = require('./crawlerUtils')
 
 let throttle = new Throttle({
   active: true, // set false to pause queue
@@ -9,16 +10,12 @@ let throttle = new Throttle({
 });
 
 function crawlUGC(card, priceArray, allPrices) {
-  const url = `http://www.ugcardshop.com.br/api/products/search/${card.name}`;
-  console.log(url);
+  const url = `https://www.ugcardshop.com.br/api/products/search/${card.name}`;
+
   request
     .get(url)
     .use(throttle.plugin())
     .end((err, res) => {
-      if (err) {
-        console.log(err);
-      }
-      console.log(res);
       const data = res.body;
       const result = { name: "", price: Infinity, availability: 0 };
       for (let i = 0; i < data.length; i++) {
