@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, ipcRenderer } = require('electron');
 const path = require('path');
 
 app.commandLine.appendSwitch('no-sandbox');
@@ -10,6 +10,9 @@ app.commandLine.appendSwitch('disable-gpu-sandbox');
 app.commandLine.appendSwitch('--no-sandbox');
 app.disableHardwareAcceleration();
 
+let mainWindow
+let addWindow
+
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
   // eslint-disable-line global-require
@@ -18,7 +21,7 @@ if (require('electron-squirrel-startup')) {
 
 const createWindow = () => {
   // Create the browser window.
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
@@ -31,32 +34,58 @@ const createWindow = () => {
 };
 
 const handleCreateAddWindows = () => {
-  const addWindow = new BrowserWindow({
+  addWindow = new BrowserWindow({
     width: 200,
     height: 400,
     title: "Add Deck",
     webPreferences: {
       preload: path.join(__dirname, './add/preload.js')
-    }
-  })
-
-  ipcMain.on('add:cards', () => {
-    addWindow.close()
+    },
+    parent: mainWindow
   })
 
   addWindow.loadFile(path.join(__dirname, './add/index.html'))
 }
 
-const handleCardsList = (event, list) => {
-  console.log(list);
+const handleAddCards = (_, list) => {
+  let items = list.split("\n");
+
+  items = items.filter((n) => {
+    return n && n[0] !== n[1] && n[0] !== "/";
+  });
+
+  let deckData = [];
+  for (let i = 0; i < items.length; i++) {
+    let j = 0;
+    for (j = 0; j < items[i].length; j++) {
+      if (isNaN(items[i][j])) {
+        break;
+      }
+    }
+    j--;
+    let cardData = {};
+    cardData.quantity = items[i].substring(0, j);
+    if (!cardData.quantity) cardData.quantity = 1;
+    cardData.name = items[i].substring(j + 1, items[i].length - j + 1);
+    deckData.push(cardData);
+  }
+
+  addWindow.getParentWindow().send("main:cards", deckData)
+  closeAddWindow()
 }
+
+const closeAddWindow = () => {
+  addWindow.close()
+  addWindow = null
+}
+
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
   ipcMain.on('add:create', handleCreateAddWindows)
-  ipcMain.on('add:cards', handleCardsList)
+  ipcMain.on('add:cards', handleAddCards)
   createWindow()
 });
 
