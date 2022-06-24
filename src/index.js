@@ -1,4 +1,5 @@
 const { app, BrowserWindow, ipcMain, ipcRenderer } = require('electron');
+const { getCardFrom } = require('./lmLikeScrapper.js');
 const path = require('path');
 
 app.commandLine.appendSwitch('no-sandbox');
@@ -47,7 +48,9 @@ const handleCreateAddWindows = () => {
   addWindow.loadFile(path.join(__dirname, './add/index.html'))
 }
 
-const handleAddCards = (_, list) => {
+const handleAddCards = async (_, list) => {
+  closeAddWindow()
+
   let items = list.split("\n");
 
   items = items.filter((n) => {
@@ -70,8 +73,14 @@ const handleAddCards = (_, list) => {
     deckData.push(cardData);
   }
 
-  addWindow.getParentWindow().send("main:cards", deckData)
-  closeAddWindow()
+  await Promise.all([
+    ...deckData.map((card) => {
+      return getCardFrom(card.name, "asgardstore").then((res) => {
+        console.log({ res })
+        mainWindow.send("main:cards", {items: [res], card})
+      })
+    })
+  ])
 }
 
 const closeAddWindow = () => {

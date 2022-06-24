@@ -1,4 +1,3 @@
-<script>
 const electron = require("electron");
 const product = require("cartesian-product");
 const { ipcRenderer } = electron;
@@ -129,4 +128,3 @@ $("#bestResult").click(() => {
 $("#add").click(() => {
   ipcRenderer.send("deck:addWindow");
 });
-</script>
