@@ -14,7 +14,7 @@ const path = require("path")
 
 const getCardFrom = async (cardName, store) => {
 
-  const baseUrl = `https://www.${store}.com.br/?view=ecom%2Fitens&id=105912&searchExactMatch=1&busca=`
+  const baseUrl = `https://www.${store}.com.br/?view=ecom%2Fitens&id=105912&tcg=1&txt_estoque=1&searchExactMatch=1&busca=`
   const {
     body
   } = await request(`${baseUrl}${cardName}`, {maxRedirections: 1})

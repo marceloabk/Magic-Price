@@ -75,9 +75,18 @@ const handleAddCards = async (_, list) => {
 
   await Promise.all([
     ...deckData.map((card) => {
-      return getCardFrom(card.name, "asgardstore").then((res) => {
-        console.log({ res })
-        mainWindow.send("main:cards", {items: [res], card})
+      const stores = [
+        "asgardstore",
+        "mtgcardsgames",
+        "spellcastgames",
+        "otemplosm",
+        "clmtg",
+      ]
+
+      return stores.map(store => {
+        return getCardFrom(card.name, store).then(item => {
+          mainWindow.send("main:cards", {item, card, store})
+        })
       })
     })
   ])
