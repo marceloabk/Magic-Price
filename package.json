@@ -44,7 +44,7 @@
   "dependencies": {
     "cheerio": "^1.0.0-rc.11",
     "electron-squirrel-startup": "^1.0.0",
-    "undici": "^5.4.0"
+    "undici": "^5.8.2"
   },
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0-beta.63",
