@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Magic Prices!</title>
+
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  </head>
+
+  <body>
+    <nav>
+      <div class="nav-wrapper light-green darken-1">
+        <div class="brand-logo center">Deck</div>
+        <a
+          id="add"
+          class="btn-floating btn-large halfway-fab waves-effect waves-light teal"
+        >
+          <i class="material-icons">add</i>
+        </a>
+      </div>
+    </nav>
+
+    <ul></ul>
+
+    <div class="container center">
+      <div class="row cards-list">
+        <div class="col s1"></div>
+        <div class="col s2">
+          <p>Asgard:</p>
+          <div class="asgardstore-price"></div>
+          <div class="asgardstore-cards"></div>
+        </div>
+        <div class="col s2">
+          <p>mtgcardsgames:</p>
+          <div class="mtgcardsgames-price"></div>
+          <div class="mtgcardsgames-cards"></div>
+        </div>
+        <div class="col s2">
+          <p>Spell cast:</p>
+          <div class="spellcastgames-price"></div>
+          <div class="spellcastgames-cards"></div>
+        </div>
+        <div class="col s2">
+          <p>O templo:</p>
+          <div class="otemplosm-price"></div>
+          <div class="otemplosm-cards"></div>
+        </div>
+        <div class="col s2">
+          <p>clmtg:</p>
+          <div class="clmtg-price"></div>
+          <div class="clmtg-cards"></div>
+        </div>
+      </div>
+
+      <button id="bestResult" class="waves-effect waves-light btn">
+        Melhor resultado
+      </button>
+      <div class="col s2">
+        <div class="bestResult-price"></div>
+        <div class="bestResult-cards"></div>
+      </div>
+    </div>
+
+    <script src="./renderer.js"></script>
+  </body>
+</html>

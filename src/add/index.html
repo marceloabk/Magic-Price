@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Add Deck</title>
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+  </head>
+
+  <body>
+    <form id="addForm">
+      <div class="container">
+        <div class="input-field">
+          <label for="deck">Enter Deck</label>
+          <textarea class="materialize-textarea" id="deck" autofocus></textarea>
+        </div>
+        <button class="btn waves-effect waves-light" type="submit">
+          Add Deck
+        </button>
+      </div>
+    </form>
+
+    <script src="./renderer.js"></script>
+  </body>
+</html>
