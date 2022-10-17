@@ -118,8 +118,6 @@ const mountCheapestCard = (cards, cardName) => {
   return cheapestCard
 }
 
-getCardFrom("brainstorm", "asgardstore").then((e) => console.log(e))
-
 module.exports = {
   getCardFrom
 }
