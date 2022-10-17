@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, ipcRenderer } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const { getCardFrom } = require('./lmLikeScrapper.js');
 const path = require('path');
 
