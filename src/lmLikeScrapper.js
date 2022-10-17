@@ -23,24 +23,27 @@ const getCardFrom = async (cardName, store) => {
   const res = await body.text()  
   const $ = cheerio.load(res)
 
-  const tableLines = $("tr[onmouseover]")
-  const quality = getTextsFromQuery(tableLines.find("td:nth-of-type(3)"), $)
-  const quantity = getTextsFromQuery(tableLines.find("td:nth-of-type(5)"), $)
-  const price = getTextsFromQuery(tableLines.find("td:nth-of-type(6)"), $)
+  const tableLines = $("div[onmouseover]")
 
-  const lines = zip(quality, quantity, price)
+  const quantity = getTextsFromQuery(tableLines.find("div:nth-of-type(5)"), $)
+  const price = getTextsFromQuery(tableLines.find("div:nth-of-type(6)"), $)
+
+  const lines = zip(quantity, price)
 
   const erros = []
 
   const qualities = new Set(["M", "NM", "SP", "MP", "HP", "DM"])
-  const validLines = lines.filter(([quality, quantity]) => {
-    if (qualities.has(quality) && quantity[0] !== "0") return true
-  })
 
-  const parsedCards = validLines.map(([quality, quantity, price]) => {
-    const parsedQuantity = Number(quantity.split(" ")[0])
+  const parsedCards = lines.map(([quantity, price]) => {
+    const parsedQuantity = parseQuantity(quantity)
     const parsedPrice = parsePrice(price)
-    return [quality, parsedQuantity, parsedPrice]
+    return [parsedQuantity, parsedPrice]
+  }).filter(([quantity, price]) => {
+    if (!quantity || !price || quantity === 0) {
+      return false
+    }
+
+    return true
   })
 
   try {
@@ -76,16 +79,26 @@ const parseErros = (erros) => {
 }
 
 const parsePrice = (price) => {
-  const promotionMinLength = 15 // if the string is too big its probably because it has a promotion
+  if (!price) return undefined
+  
+  const brlString = price.match(/R\$ \d+,\d+/g)?.at(-1) // if it has two values probabily it has a promotion
 
-  if (price.length <= promotionMinLength) {
-    const onlyPrice = price.split(" ")[1]
-    return moneyStringToNumber(onlyPrice)
-  } else {
-    const brlRegex = /\b\d{1,3}(?:\.\d{3})*,\d+\b/g
-    const onlyPrice = price.match(brlRegex)
-    return moneyStringToNumber(onlyPrice[1])
-  }
+  if (!brlString) return undefined
+
+  const brlPrice = brlString.split(" ")?.[1]
+
+  const priceNumberFormated = moneyStringToNumber(brlPrice)
+
+  return Number(priceNumberFormated)
+}
+
+const parseQuantity = (quantity) => {
+  if (!quantity) return quantity
+
+  const quantityString = quantity.match(/\d+ unid./g)[0]
+  const quantityNumber = quantityString.split(" ")[0]
+
+  return Number(quantityNumber)
 }
 
 const moneyStringToNumber = (string) => {
@@ -95,7 +108,7 @@ const moneyStringToNumber = (string) => {
 const mountCheapestCard = (cards, cardName) => {
   const cheapestCard = { name: cardName, price: Infinity, availability: null }
 
-  for (const [, quantity, price] of cards) {
+  for (const [quantity, price] of cards) {
     if (cheapestCard.price > price) {
       cheapestCard.price = price
       cheapestCard.availability = quantity
@@ -104,6 +117,8 @@ const mountCheapestCard = (cards, cardName) => {
 
   return cheapestCard
 }
+
+getCardFrom("brainstorm", "asgardstore").then((e) => console.log(e))
 
 module.exports = {
   getCardFrom
